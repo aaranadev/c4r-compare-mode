@@ -1,0 +1,186 @@
+{
+  "name": "www",
+  "version": "0.0.1",
+  "description": "CARTO 3 template",
+  "private": true,
+  "homepage": "https://github.com/CartoDB/carto-ps-www-template#readme",
+  "bugs": {
+    "url": "https://github.com/CartoDB/carto-ps-www-template"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CartoDB/carto-ps-www-template"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=16",
+    "npm": ">=7",
+    "yarn": "please-use-npm",
+    "pnpm": "please-use-npm"
+  },
+  "engineStrict": true,
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview --port 3000",
+    "lint": "eslint './**/*.{ts,tsx}' --ignore-path .gitignore",
+    "format": "prettier --write . --ignore-path .gitignore",
+    "hygen": "hygen",
+    "updateSupportedBrowsers": "echo \"var browserRegex = $(npx -y browserslist-useragent-regexp --allowHigherVersions);\" > public/supportedBrowsers.js"
+  },
+  "dependencies": {
+    "@auth0/auth0-react": "1.9.0",
+    "@carto/ps-react-hooks": "0.1.0-alpha.3",
+    "@carto/ps-react-redux": "0.1.0-alpha.3",
+    "@carto/ps-services": "0.1.0-alpha.3",
+    "@carto/ps-utils": "0.1.0-alpha.3",
+    "@carto/react-api": "1.2.1",
+    "@carto/react-basemaps": "1.2.1",
+    "@carto/react-core": "1.2.1",
+    "@carto/react-redux": "1.2.1",
+    "@carto/react-ui": "1.2.1",
+    "@carto/react-widgets": "1.2.1",
+    "@carto/react-workers": "1.2.1",
+    "@deck.gl/aggregation-layers": "8.7.8",
+    "@deck.gl/carto": "8.7.8",
+    "@deck.gl/core": "8.7.8",
+    "@deck.gl/extensions": "8.7.8",
+    "@deck.gl/geo-layers": "8.7.8",
+    "@deck.gl/google-maps": "8.7.8",
+    "@deck.gl/layers": "8.7.8",
+    "@deck.gl/mesh-layers": "8.7.8",
+    "@deck.gl/react": "8.7.8",
+    "@material-ui/core": "4.12.4",
+    "@material-ui/icons": "4.11.3",
+    "@material-ui/lab": "4.0.0-alpha.61",
+    "@material-ui/styles": "4.11.5",
+    "@reduxjs/toolkit": "1.8.1",
+    "@turf/boolean-intersects": "6.5.0",
+    "@turf/turf": "6.5.0",
+    "clsx": "1.1.1",
+    "deepmerge": "4.2.2",
+    "echarts": "5.3.2",
+    "echarts-for-react": "3.0.2",
+    "mapbox-gl": "npm:empty-npm-package@1.0.0",
+    "maplibre-gl": "2.1.9",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-i18next": "11.16.7",
+    "react-map-gl": "7.0.11",
+    "react-query": "3.38.0",
+    "react-redux": "7.2.8",
+    "react-router-dom": "6.3.0",
+    "uuid": "8.3.2"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "5.16.4",
+    "@testing-library/react": "12.1.5",
+    "@testing-library/user-event": "14.1.1",
+    "@types/node": "17.0.26",
+    "@types/react": "17.0.44",
+    "@types/react-dom": "18.0.2",
+    "@types/react-redux": "7.1.24",
+    "@types/react-window": "1.8.5",
+    "@types/styled-components": "5.1.25",
+    "@types/uuid": "8.3.4",
+    "@typescript-eslint/eslint-plugin": "5.20.0",
+    "@typescript-eslint/parser": "5.20.0",
+    "@vitejs/plugin-react": "1.3.1",
+    "eslint": "8.14.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-jest": "26.1.5",
+    "eslint-plugin-jsx-a11y": "6.5.1",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-react": "7.29.4",
+    "eslint-plugin-react-hooks": "4.4.0",
+    "eslint-plugin-testing-library": "5.3.1",
+    "husky": "7.0.4",
+    "hygen": "6.2.0",
+    "lint-staged": "12.4.0",
+    "prettier": "2.6.2",
+    "typescript": "4.6.3",
+    "vite": "2.9.5",
+    "vite-plugin-svgr": "1.1.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all",
+      "not explorer 11"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "eslintConfig": {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 2020,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "env": {
+      "browser": true,
+      "amd": true,
+      "jest": true,
+      "node": true
+    },
+    "globals": {
+      "React": true,
+      "JSX": true
+    },
+    "rules": {
+      "no-console": 1,
+      "no-debugger": 1,
+      "prettier/prettier": 1,
+      "react/react-in-jsx-scope": 0,
+      "@typescript-eslint/ban-ts-comment": 0,
+      "@typescript-eslint/no-explicit-any": 0,
+      "@typescript-eslint/no-empty-function": 0,
+      "@typescript-eslint/no-non-null-assertion": 0
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "plugin:react-hooks/recommended",
+      "plugin:jsx-a11y/recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:prettier/recommended"
+    ],
+    "plugins": [
+      "prettier",
+      "@typescript-eslint"
+    ],
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    }
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "bracketSpacing": true,
+    "jsxSingleQuote": true,
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false
+  },
+  "lint-staged": {
+    "*.+(ts|tsx)": [
+      "npm run lint -- --max-warnings 0"
+    ],
+    "*.+(ts|tsx|json|css|md)": [
+      "npm run format"
+    ]
+  }
+}
