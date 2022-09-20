@@ -8,6 +8,7 @@ export const DEFAULT_VIEW_STATE = {
   zoom: 2,
   pitch: 0,
   bearing: 0,
+  minZoom: 2,
 }
 
 export const initialState = {
