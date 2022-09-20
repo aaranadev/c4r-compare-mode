@@ -7,13 +7,13 @@ import { htmlForFeature } from '@/utils/htmlForFeatureUtils'
 import { RootState } from '@/store/store'
 import { useAppHook } from '@/contexts/AppContext'
 
-export const EXAMPLE_LAYER_ID = 'exampleLayer'
+export const POI_LAYER_ID = 'poiLayer'
 
-export default function ExampleLayer() {
-  const { exampleLayer } = useSelector((state: RootState) => state.carto.layers)
+export default function PoiLayer() {
+  const { poiLayer } = useSelector((state: RootState) => state.carto.layers)
   const source = useSelector((state) =>
     // @ts-ignore
-    selectSourceById(state, exampleLayer?.source),
+    selectSourceById(state, poiLayer?.source),
   )
   const {
     state: { selectedFeatures },
@@ -21,10 +21,10 @@ export default function ExampleLayer() {
   } = useAppHook()
   const cartoLayerProps = useCartoLayerProps({ source })
 
-  if (exampleLayer && source) {
+  if (poiLayer && source) {
     return new CartoLayer({
       ...cartoLayerProps,
-      id: EXAMPLE_LAYER_ID,
+      id: POI_LAYER_ID,
       getFillColor: (d: any) => {
         if (selectedFeatures.includes(d.properties.osm_id)) {
           return [120, 20, 255]
