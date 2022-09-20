@@ -35,7 +35,7 @@ export interface HtmlForFeature {
 export function htmlForFeature({
   title,
   feature,
-  formatter = DEFAULT_FORMATTER,
+  formatter,
   includeColumns = '*',
   showColumnName = true,
 }: HtmlForFeature) {

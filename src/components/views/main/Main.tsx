@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Grid } from '@material-ui/core'
 import TopLoading from '@/components/common/TopLoading'
+import FeaturesSelected from './FeaturesSelected'
 
 const MapContainer = lazy(
   () =>
@@ -46,6 +47,7 @@ export default function Main() {
         <Sidebar />
       </Suspense>
       <MapContainer />
+      <FeaturesSelected />
       <ErrorSnackbar />
     </Grid>
   )

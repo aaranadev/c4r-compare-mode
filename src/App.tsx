@@ -5,6 +5,7 @@ import theme from './theme'
 import routes from './routes'
 import { useAuth } from '@carto/ps-react-hooks'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { AppProvider } from './contexts/AppContext'
 
 const useStyles = makeStyles(() => ({
   app: {
@@ -22,12 +23,14 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Grid container direction='column' className={classes.app}>
-          <LazyLoadRoute>{routing}</LazyLoadRoute>
-        </Grid>
-      </ThemeProvider>
+      <AppProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Grid container direction='column' className={classes.app}>
+            <LazyLoadRoute>{routing}</LazyLoadRoute>
+          </Grid>
+        </ThemeProvider>
+      </AppProvider>
     </QueryClientProvider>
   )
 }

@@ -2,13 +2,17 @@ import { VOYAGER } from '@carto/react-basemaps'
 // @ts-ignore
 import { API_VERSIONS } from '@deck.gl/carto'
 
+export const DEFAULT_VIEW_STATE = {
+  latitude: 31.802892,
+  longitude: -103.007813,
+  zoom: 2,
+  pitch: 0,
+  bearing: 0,
+}
+
 export const initialState = {
   viewState: {
-    latitude: 31.802892,
-    longitude: -103.007813,
-    zoom: 2,
-    pitch: 0,
-    bearing: 0,
+    ...DEFAULT_VIEW_STATE,
     dragRotate: false,
   },
   basemap: VOYAGER,

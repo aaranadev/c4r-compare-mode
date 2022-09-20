@@ -8,12 +8,14 @@ const Main = lazy(
 )
 const NotFound = lazy(() => import('@/components/views/NotFound'))
 const Login = lazy(() => import('@/components/views/Login'))
+const Example = lazy(() => import('@/components/views/Example'))
 // [hygen] Import views
 
 export const ROUTE_PATHS = {
   LOGIN: '/login',
   DEFAULT: '/',
   NOT_FOUND: '404',
+  EXAMPLE: '',
   // [hygen] Add path routes
 }
 
@@ -28,7 +30,7 @@ const routes = [
       </ProtectedRoute>
     ),
     children: [
-      // { path: '/', element: <Navigate to='/<your default view>' /> },
+      { path: ROUTE_PATHS.EXAMPLE, element: <Example /> },
       // [hygen] Add routes
     ],
   },
