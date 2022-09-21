@@ -13,21 +13,18 @@ export default function FeaturesSelected() {
       <Paper>
         <Box padding={spacing(0.25)}>
           <Grid container direction='column'>
-            {selectedFeatures.map((feature) => (
+            {selectedFeatures.map(({ id }) => (
               <Grid
-                key={feature}
+                key={id}
                 item
                 container
                 spacing={1}
                 justifyContent='space-between'
                 alignItems='center'
               >
-                <Grid item>{feature}</Grid>
+                <Grid item>{id}</Grid>
                 <Grid item>
-                  <IconButton
-                    size='small'
-                    onClick={() => removeFeature(feature)}
-                  >
+                  <IconButton size='small' onClick={() => removeFeature(id)}>
                     <Clear fontSize='small' />
                   </IconButton>
                 </Grid>

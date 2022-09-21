@@ -47,7 +47,13 @@ export default function PoiLayer() {
       },
       onClick: (info: any) => {
         if (info?.object) {
-          addFeature(info.object.properties.osm_id)
+          addFeature({
+            id: info.object.properties.osm_id,
+            geometry: {
+              type: 'Point',
+              coordinates: info.coordinate,
+            },
+          })
         }
       },
     })

@@ -7,10 +7,8 @@ import { TILESET_LAYER_ID } from '../layers/TilesetLayer'
 import { addLayer, removeLayer, removeSource } from '@carto/react-redux'
 
 import { addSource } from '@carto/react-redux'
-import exampleSource, { POI_SOURCE_ID } from '@/data/sources/poiSource'
-import example2Source, {
-  TILESET_SOURCE_ID_2,
-} from '@/data/sources/tilesetSource'
+import poiSource, { POI_SOURCE_ID } from '@/data/sources/poiSource'
+import tileSource, { TILESET_SOURCE_ID_2 } from '@/data/sources/tilesetSource'
 import { CategoryWidget } from '@carto/react-widgets'
 import { AggregationTypes } from '@carto/react-core'
 import FormulaWidget from '../widgets/FormulaWidget'
@@ -28,36 +26,40 @@ export default function Example() {
   const classes = useStyles()
 
   useEffect(() => {
-    dispatch(addSource(exampleSource))
+    dispatch(addSource(poiSource))
     dispatch(
       addLayer({
         id: POI_LAYER_ID,
-        source: exampleSource.id,
+        source: poiSource.id,
       }),
     )
     return () => {
       dispatch(removeLayer(POI_LAYER_ID))
-      dispatch(removeSource(exampleSource.id))
+      dispatch(removeSource(poiSource.id))
     }
   }, [dispatch])
 
   useEffect(() => {
     if (selectedFeatures.length) {
-      dispatch(addSource(example2Source))
+      const _tileSource = {
+        ...tileSource,
+        data: tileSource.data(selectedFeatures[0].geometry.coordinates),
+      }
+      dispatch(addSource(_tileSource))
       dispatch(
         addLayer({
           id: TILESET_LAYER_ID,
-          source: example2Source.id,
+          source: tileSource.id,
         }),
       )
     } else {
       dispatch(removeLayer(TILESET_LAYER_ID))
-      dispatch(removeSource(example2Source.id))
+      dispatch(removeSource(tileSource.id))
     }
 
     return () => {
       dispatch(removeLayer(TILESET_LAYER_ID))
-      dispatch(removeSource(example2Source.id))
+      dispatch(removeSource(tileSource.id))
     }
   }, [dispatch, selectedFeatures])
 
@@ -81,7 +83,7 @@ export default function Example() {
               id='example20'
               title='OSM 1'
               dataSource={TILESET_SOURCE_ID_2}
-              column='geoid'
+              column='id'
               operation={AggregationTypes.COUNT}
             />
           </Grid>
@@ -90,8 +92,8 @@ export default function Example() {
               id='example21'
               title='OSM 2'
               dataSource={TILESET_SOURCE_ID_2}
-              column='BLOCKGROUP'
-              operationColumn='geoid'
+              column='name'
+              operationColumn='id'
               operation={AggregationTypes.AVG}
             />
           </Grid>

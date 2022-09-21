@@ -1,3 +1,5 @@
+import { TILESET_LAYER_ID } from '@/components/layers/TilesetLayer'
+import { addFilter } from '@carto/react-redux'
 import {
   createContext,
   type Dispatch,
@@ -6,6 +8,7 @@ import {
   useCallback,
   useContext,
 } from 'react'
+import { useDispatch } from 'react-redux'
 
 export enum ActionType {
   AddFeature = 'AddFeature',
@@ -13,13 +16,21 @@ export enum ActionType {
   ClearFeatures = 'ClearFeatures',
 }
 
+type SelectedFeatures = {
+  id: string | number
+  geometry: {
+    type: string
+    coordinates: [number, number]
+  }
+}
+
 type AppState = {
-  selectedFeatures: string[]
+  selectedFeatures: SelectedFeatures[]
 }
 
 type Action = {
   type: ActionType
-  payload?: string | undefined | string[]
+  payload?: SelectedFeatures | string
 }
 
 const DEFAULT_VALUE: AppState = {
@@ -33,12 +44,14 @@ export const AppContext = createContext<
 function stateReducer(state: AppState, { type, payload }: Action): AppState {
   const actions = {
     [ActionType.AddFeature]: () => {
-      const data = payload as string
-      state.selectedFeatures = [...state.selectedFeatures, data]
+      state.selectedFeatures = [
+        ...state.selectedFeatures,
+        payload as SelectedFeatures,
+      ]
     },
     [ActionType.RemoveFeature]: () => {
       state.selectedFeatures = state.selectedFeatures.filter(
-        (feature) => feature !== payload,
+        (feature) => feature.id !== payload,
       )
     },
     [ActionType.ClearFeatures]: () => {
@@ -63,19 +76,35 @@ export function AppProvider({ children }: { children: ReactNode }) {
 }
 
 export function useAppHook() {
+  const _dispatch = useDispatch()
   const [state, dispatch] = useContext(AppContext)
+
+  const addFilterToTileset = useCallback(
+    (feature) => {
+      _dispatch(
+        addFilter({
+          // @ts-ignore
+          sourceId: TILESET_LAYER_ID,
+          geometry: feature.geometry,
+        }),
+      )
+    },
+    [_dispatch],
+  )
+
   const addFeature = useCallback(
     (payload) => {
-      const data = payload as string
+      const { id } = payload
       if (
-        state.selectedFeatures.includes(data) ||
+        state.selectedFeatures.some((feature) => feature.id === id) ||
         state.selectedFeatures.length >= 3
       ) {
         return
       }
+      addFilterToTileset(payload)
       return dispatch({ type: ActionType.AddFeature, payload })
     },
-    [dispatch, state.selectedFeatures],
+    [dispatch, state.selectedFeatures, addFilterToTileset],
   )
   const removeFeature = useCallback(
     (payload) => dispatch({ type: ActionType.RemoveFeature, payload }),
