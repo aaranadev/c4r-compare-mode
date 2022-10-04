@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { WrapperWidgetUI } from '@carto/react-ui'
-import { selectAreFeaturesReadyForSource } from '@carto/react-redux'
-import { getFormula, useSourceFilters } from '@carto/react-widgets'
-import FormulaWidgetUI from './FormulaWidgetUI'
+import React from 'react'
+import { WrapperWidgetUI, FormulaWidgetUI } from '@carto/react-ui'
+import { getFormula } from './FormulaModel'
+import useWidgetFetch from '../common/useWidgetFetch'
 
 /**
  * Renders a <FormulaWidget /> component
@@ -11,72 +9,61 @@ import FormulaWidgetUI from './FormulaWidgetUI'
  * @param  {string} props.id - ID for the widget instance.
  * @param  {string} props.title - Title to show in the widget header.
  * @param  {string} props.dataSource - ID of the data source to get the data from.
- * @param  {string} props.column - Name of the data source's column to get the data from.
- * @param  {string} props.operation - Operation to apply to the operationColumn. Must be one of those defined in `AggregationTypes` object.
+ * @param  {string | string[]} props.column - Name of the data source's column(s) to get the data from. If multiples are provided, they will be merged into a single one using joinOperation property.
+ * @param  {AggregationTypes} [props.joinOperation] - Operation applied to aggregate multiple columns into a single one.
+ * @param  {AggregationTypes} props.operation - Operation to apply to the operationColumn. Must be one of those defined in `AggregationTypes` object.
  * @param  {Function} [props.formatter] - Function to format each value returned.
  * @param  {boolean} [props.animation] - Enable/disable widget animations on data updates. Enabled by default.
+ * @param  {boolean} [props.global] - Enable/disable the viewport filtering in the data fetching.
  * @param  {Function} [props.onError] - Function to handle error messages from the widget.
  * @param  {Object} [props.wrapperProps] - Extra props to pass to [WrapperWidgetUI](https://storybook-react.carto.com/?path=/docs/widgets-wrapperwidgetui--default)
+ * @param  {Object} [props.droppingFeaturesAlertProps] - Extra props to pass to [NoDataAlert]() when dropping feature
  */
-export default function FormulaWidget(props: any) {
+export default function FormulaWidget({
+  id,
+  title,
+  dataSource,
+  column,
+  operation,
+  joinOperation,
+  formatter,
+  animation,
+  global,
+  onError,
+  wrapperProps,
+  droppingFeaturesAlertProps,
+}: any) {
   const {
+    data = { value: undefined },
+    isLoading,
+    warning,
+  } = useWidgetFetch(getFormula, {
     id,
-    title,
     dataSource,
-    column,
-    operation,
-    formatter,
-    animation,
+    params: {
+      operation,
+      column,
+      joinOperation,
+    },
+    global,
     onError,
-    wrapperProps,
-  } = props
-  const isSourceReady = useSelector((state) =>
-    selectAreFeaturesReadyForSource(state, dataSource),
-  )
-  const filters = useSourceFilters({ dataSource, id })
-
-  const [formulaData, setFormulaData] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    setIsLoading(true)
-
-    if (isSourceReady) {
-      getFormula({
-        operation,
-        column,
-        filters,
-        dataSource,
-      })
-        .then((data: any) => {
-          if (data && data[0]) {
-            setIsLoading(false)
-            setFormulaData(data[0].value)
-          }
-        })
-        .catch((error: any) => {
-          setIsLoading(false)
-          if (onError) onError(error)
-        })
-    }
-  }, [
-    operation,
-    column,
-    filters,
-    dataSource,
-    setIsLoading,
-    onError,
-    isSourceReady,
-  ])
+  })
 
   return (
     <WrapperWidgetUI title={title} isLoading={isLoading} {...wrapperProps}>
+      {/* <WidgetWithAlert
+        dataSource={dataSource}
+        warning={warning}
+        global={global}
+        droppingFeaturesAlertProps={droppingFeaturesAlertProps}
+      > */}
       <FormulaWidgetUI
-        data={formulaData}
+        data={Number.isFinite(data?.value) ? data.value : undefined}
         formatter={formatter}
         unitBefore={true}
         animation={animation}
       />
+      {/* </WidgetWithAlert> */}
     </WrapperWidgetUI>
   )
 }

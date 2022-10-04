@@ -15,4 +15,7 @@ export default defineConfig({
       maxSessionMemory: 100,
     },
   },
+  build: {
+    target: 'esnext',
+  },
 })
