@@ -8,12 +8,13 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { Auth0Provider } from '@auth0/auth0-react'
-import { createCartoSlice } from '@carto/react-redux'
+// import { createCartoSlice } from '@carto/react-redux'
 import App from './App'
 import { initialState } from '@/store/initialStateSlice'
 import store from './store/store'
 // @ts-ignore
 import { setDefaultCredentials } from '@deck.gl/carto'
+import { createCartoSlice } from './store/cartoSlice'
 
 // @ts-ignore
 store.injectReducer('carto', createCartoSlice(initialState))
