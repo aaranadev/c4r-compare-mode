@@ -361,15 +361,14 @@ export const checkIfSourceIsDroppingFeature = (state: any, id: any) =>
  * Redux selector to select the spatial filter of a given sourceId or the root one
  */
 export const selectSpatialFilter = (state: any, sourceId: any) => {
-  let spatialFilterGeometry = state.carto.spatialFilter[0] || null
+  let spatialFilterGeometry = state.carto.spatialFilter
   if (spatialFilterGeometry?.properties?.disabled) {
-    spatialFilterGeometry = null
+    spatialFilterGeometry = []
   }
   let response = spatialFilterGeometry
   if (sourceId) {
     response =
-      state.carto.dataSources[sourceId]?.spatialFilter?.[0] ??
-      spatialFilterGeometry
+      state.carto.dataSources[sourceId]?.spatialFilter ?? spatialFilterGeometry
   }
 
   return response

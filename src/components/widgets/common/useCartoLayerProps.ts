@@ -15,9 +15,11 @@ export default function useCartoLayerProps({
 }: any) {
   // @ts-ignore
   const viewport = useSelector((state) => state.carto.viewport)
-  const spatialFilter = useSelector((state) =>
+  const _spatialFilter = useSelector((state) =>
     selectSpatialFilter(state, source?.id),
   )
+
+  const spatialFilter = _spatialFilter[0]
 
   const [onDataLoadForGeojson] = useGeojsonFeatures({
     source,

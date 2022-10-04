@@ -25,10 +25,12 @@ export default function FeatureSelectionLayer(
   const theme = useTheme()
   const [selectedFeatureIndex, setSelectedFeatureIndex] = useState(null)
   const selectedMode = useSelector((state) => selectFeatureSelectionMode(state))
-  const spatialFilterGeometry = useSelector((state) =>
+  const _spatialFilterGeometry = useSelector((state) =>
     // @ts-ignore
     selectSpatialFilter(state, TILESET_SOURCE_ID_2),
   )
+
+  const spatialFilterGeometry = _spatialFilterGeometry[0]
 
   const isEdit = isEditMode(selectedMode)
   const hasGeometry = !!spatialFilterGeometry
