@@ -2,10 +2,10 @@ import { useSelector } from 'react-redux'
 // @ts-ignore
 import { CartoLayer } from '@deck.gl/carto'
 import { selectSourceById } from '@carto/react-redux'
-import { useCartoLayerProps } from '@carto/react-api'
 import { htmlForFeature } from '@/utils/htmlForFeatureUtils'
 import { RootState } from '@/store/store'
 import { useAppHook } from '@/contexts/AppContext'
+import useCartoLayerProps from '../widgets/common/useCartoLayerProps'
 
 export const POI_LAYER_ID = 'poiLayer'
 
