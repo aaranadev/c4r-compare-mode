@@ -22,6 +22,7 @@ export default function Example() {
   const dispatch = useDispatch()
   const {
     state: { selectedFeatures },
+    addFilterToTileset
   } = useAppHook()
   const classes = useStyles()
 
@@ -43,7 +44,7 @@ export default function Example() {
     if (selectedFeatures.length) {
       const _tileSource = {
         ...tileSource,
-        data: tileSource.data(selectedFeatures[0].geometry.coordinates),
+        data: tileSource.data,
       }
       dispatch(addSource(_tileSource))
       dispatch(
@@ -52,6 +53,9 @@ export default function Example() {
           source: tileSource.id,
         }),
       )
+      selectedFeatures.forEach((feature) => {
+        addFilterToTileset(feature)
+      })
     } else {
       dispatch(removeLayer(TILESET_LAYER_ID))
       dispatch(removeSource(tileSource.id))
@@ -61,7 +65,7 @@ export default function Example() {
       dispatch(removeLayer(TILESET_LAYER_ID))
       dispatch(removeSource(tileSource.id))
     }
-  }, [dispatch, selectedFeatures])
+  }, [dispatch, addFilterToTileset, selectedFeatures])
 
   // [hygen] Add useEffect
 

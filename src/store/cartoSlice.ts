@@ -52,7 +52,7 @@ export const createCartoSlice = (initialState: any) => {
       dataSources: {
         // Auto import dataSources
       },
-      spatialFilter: null,
+      spatialFilter: [],
       featureSelectionMode: FEATURE_SELECTION_MODES.POLYGON,
       featureSelectionEnabled: false,
       featuresReady: {},
@@ -115,14 +115,19 @@ export const createCartoSlice = (initialState: any) => {
       },
       addSpatialFilter: (state, action) => {
         const { sourceId, geometry } = action.payload
+        let data = geometry
+
+        if (!Array.isArray(geometry)) {
+          data = [geometry]
+        }
+
         if (sourceId) {
           const source = state.dataSources[sourceId]
-
           if (source) {
-            source.spatialFilter = geometry
+            source.spatialFilter = [...(source.spatialFilter || []), ...data]
           }
         } else {
-          state.spatialFilter = geometry
+          state.spatialFilter = [...state.spatialFilter, ...data]
         }
       },
       removeSpatialFilter: (state, action) => {
@@ -131,10 +136,10 @@ export const createCartoSlice = (initialState: any) => {
           const source = state.dataSources[sourceId]
 
           if (source) {
-            source.spatialFilter = null
+            source.spatialFilter = []
           }
         } else {
-          state.spatialFilter = null
+          state.spatialFilter = []
         }
       },
       addFilter: (state, action) => {
@@ -356,13 +361,18 @@ export const checkIfSourceIsDroppingFeature = (state: any, id: any) =>
  * Redux selector to select the spatial filter of a given sourceId or the root one
  */
 export const selectSpatialFilter = (state: any, sourceId: any) => {
-  let spatialFilterGeometry = state.carto.spatialFilter
+  let spatialFilterGeometry = state.carto.spatialFilter[0] || null
   if (spatialFilterGeometry?.properties?.disabled) {
     spatialFilterGeometry = null
   }
-  return sourceId
-    ? state.carto.dataSources[sourceId]?.spatialFilter || spatialFilterGeometry
-    : spatialFilterGeometry
+  let response = spatialFilterGeometry
+  if (sourceId) {
+    response =
+      state.carto.dataSources[sourceId]?.spatialFilter?.[0] ??
+      spatialFilterGeometry
+  }
+
+  return response
 }
 
 /**

@@ -1,5 +1,4 @@
-import { TILESET_LAYER_ID } from '@/components/layers/TilesetLayer'
-import { addFilter } from '@carto/react-redux'
+import { addSpatialFilter } from '@carto/react-redux'
 import {
   createContext,
   type Dispatch,
@@ -9,6 +8,8 @@ import {
   useContext,
 } from 'react'
 import { useDispatch } from 'react-redux'
+import buffer from '@turf/buffer'
+import { TILESET_SOURCE_ID_2 } from '@/data/sources/tilesetSource'
 
 export enum ActionType {
   AddFeature = 'AddFeature',
@@ -81,11 +82,13 @@ export function useAppHook() {
 
   const addFilterToTileset = useCallback(
     (feature) => {
+      const data = buffer(feature.geometry, 1, {
+        units: 'kilometers',
+      })
       _dispatch(
-        addFilter({
-          // @ts-ignore
-          sourceId: TILESET_LAYER_ID,
-          geometry: feature.geometry,
+        addSpatialFilter({
+          sourceId: TILESET_SOURCE_ID_2,
+          geometry: data,
         }),
       )
     },
@@ -101,10 +104,9 @@ export function useAppHook() {
       ) {
         return
       }
-      addFilterToTileset(payload)
       return dispatch({ type: ActionType.AddFeature, payload })
     },
-    [dispatch, state.selectedFeatures, addFilterToTileset],
+    [dispatch, state.selectedFeatures],
   )
   const removeFeature = useCallback(
     (payload) => dispatch({ type: ActionType.RemoveFeature, payload }),
@@ -114,5 +116,5 @@ export function useAppHook() {
     () => dispatch({ type: ActionType.ClearFeatures }),
     [dispatch],
   )
-  return { state, addFeature, removeFeature, clearFeatures }
+  return { state, addFeature, removeFeature, clearFeatures, addFilterToTileset }
 }

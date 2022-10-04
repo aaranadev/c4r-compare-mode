@@ -2,9 +2,9 @@ import { useSelector, useDispatch } from 'react-redux'
 // @ts-ignore
 import { colorBins, CartoLayer } from '@deck.gl/carto'
 import { selectSourceById, updateLayer } from '@carto/react-redux'
-import { useCartoLayerProps } from '@carto/react-api'
 import { htmlForFeature } from '@/utils/htmlForFeatureUtils'
 import { LEGEND_TYPES } from '@carto/react-ui'
+import useCartoLayerProps from '../widgets/common/useCartoLayerProps'
 
 export const TILESET_LAYER_ID = 'tilesetLayer'
 
@@ -39,7 +39,6 @@ export default function TilesetLayer() {
     selectSourceById(state, tilesetLayer?.source),
   )
   const cartoLayerProps = useCartoLayerProps({ source })
-
   if (tilesetLayer && source) {
     return new CartoLayer({
       ...cartoLayerProps,

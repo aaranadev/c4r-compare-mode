@@ -1,10 +1,10 @@
 import { useCallback } from 'react'
 import { useSelector } from 'react-redux'
-import { selectSpatialFilter } from '@carto/react-redux'
 import useGeojsonFeatures from './useGeojsonFeatures'
 import useTileFeatures from './useTileFeatures'
 import { getDataFilterExtensionProps } from './dataFilterExtensionUtil'
 import { getMaskExtensionProps } from './maskExtensionUtil'
+import { selectSpatialFilter } from '@/store/cartoSlice'
 
 export default function useCartoLayerProps({
   source,
