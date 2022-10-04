@@ -8,17 +8,14 @@ import { selectSpatialFilter } from '@/store/cartoSlice'
 import { TILESET_SOURCE_ID_2 } from '@/data/sources/tilesetSource'
 
 export default function MaskLayer() {
-  const _spatialFilterGeometry = useSelector((state) =>
+  const spatialFilterGeometry = useSelector((state) =>
     // @ts-ignore
     selectSpatialFilter(state, TILESET_SOURCE_ID_2),
   )
 
-  const spatialFilterGeometry = _spatialFilterGeometry[0]
-
-  const maskData = spatialFilterGeometry
-    ? // @ts-ignore
-      [{ polygon: spatialFilterGeometry?.geometry?.coordinates }]
-    : []
+  const maskData = spatialFilterGeometry.map((feature: any) => ({
+    polygon: feature.geometry.coordinates,
+  }))
 
   return new SolidPolygonLayer({
     id: MASK_ID,

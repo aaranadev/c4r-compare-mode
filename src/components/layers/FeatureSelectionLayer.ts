@@ -25,15 +25,13 @@ export default function FeatureSelectionLayer(
   const theme = useTheme()
   const [selectedFeatureIndex, setSelectedFeatureIndex] = useState(null)
   const selectedMode = useSelector((state) => selectFeatureSelectionMode(state))
-  const _spatialFilterGeometry = useSelector((state) =>
+  const spatialFilterGeometry = useSelector((state) =>
     // @ts-ignore
     selectSpatialFilter(state, TILESET_SOURCE_ID_2),
   )
 
-  const spatialFilterGeometry = _spatialFilterGeometry[0]
-
   const isEdit = isEditMode(selectedMode)
-  const hasGeometry = !!spatialFilterGeometry
+  const hasGeometry = !!spatialFilterGeometry.length
   const isSelected = selectedFeatureIndex !== null
 
   const customEventManager = useEventManager({
@@ -79,7 +77,7 @@ export default function FeatureSelectionLayer(
       pickable: !!selectedMode,
       data: {
         type: 'FeatureCollection',
-        features: spatialFilterGeometry ? [spatialFilterGeometry] : [],
+        features: spatialFilterGeometry ?? [],
       },
       mode,
       // @ts-ignore
