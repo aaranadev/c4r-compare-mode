@@ -11,7 +11,7 @@ import poiSource, { POI_SOURCE_ID } from '@/data/sources/poiSource'
 import tileSource, { TILESET_SOURCE_ID_2 } from '@/data/sources/tilesetSource'
 import { CategoryWidget } from '@carto/react-widgets'
 import { AggregationTypes } from '@carto/react-core'
-import FormulaWidget from '../widgets/FormulaWidget'
+import FormulaWidget from '../widgets/FormulaWidget/FormulaWidget'
 import { useAppHook } from '@/contexts/AppContext'
 
 const useStyles = makeStyles(() => ({

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { WrapperWidgetUI, FormulaWidgetUI } from '@carto/react-ui'
+import { WrapperWidgetUI } from '@carto/react-ui'
 import { selectAreFeaturesReadyForSource } from '@carto/react-redux'
 import { getFormula, useSourceFilters } from '@carto/react-widgets'
+import FormulaWidgetUI from './FormulaWidgetUI'
 
 /**
  * Renders a <FormulaWidget /> component
