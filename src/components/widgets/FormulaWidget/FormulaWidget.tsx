@@ -49,6 +49,15 @@ export default function FormulaWidget({
     onError,
   })
 
+  let _data = data
+
+  if (Array.isArray(data.value)) {
+    _data = {
+      ...data,
+      value: data.value[0],
+    }
+  }
+
   return (
     <WrapperWidgetUI title={title} isLoading={isLoading} {...wrapperProps}>
       {/* <WidgetWithAlert
@@ -58,7 +67,7 @@ export default function FormulaWidget({
         droppingFeaturesAlertProps={droppingFeaturesAlertProps}
       > */}
       <FormulaWidgetUI
-        data={Number.isFinite(data?.value) ? data.value : undefined}
+        data={Number.isFinite(_data?.value) ? _data.value : undefined}
         formatter={formatter}
         unitBefore={true}
         animation={animation}
