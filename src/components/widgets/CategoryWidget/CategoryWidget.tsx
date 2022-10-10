@@ -98,7 +98,6 @@ export default function CategoryWidget(props: any) {
     [column, dataSource, id, dispatch],
   )
 
-  console.log({data})
   return (
     <WrapperWidgetUI title={title} isLoading={isLoading} {...wrapperProps}>
       <WidgetWithAlert
