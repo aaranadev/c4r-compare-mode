@@ -9,9 +9,9 @@ import { addLayer, removeLayer, removeSource } from '@carto/react-redux'
 import { addSource } from '@carto/react-redux'
 import poiSource, { POI_SOURCE_ID } from '@/data/sources/poiSource'
 import tileSource, { TILESET_SOURCE_ID_2 } from '@/data/sources/tilesetSource'
-import { CategoryWidget } from '@carto/react-widgets'
 import { AggregationTypes } from '@carto/react-core'
 import FormulaWidget from '../widgets/FormulaWidget/FormulaWidget'
+import CategoryWidget from '../widgets/CategoryWidget/CategoryWidget'
 import { useAppHook } from '@/contexts/AppContext'
 
 const useStyles = makeStyles(() => ({
@@ -22,7 +22,7 @@ export default function Example() {
   const dispatch = useDispatch()
   const {
     state: { selectedFeatures },
-    addFilterToTileset
+    addFilterToTileset,
   } = useAppHook()
   const classes = useStyles()
 
