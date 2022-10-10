@@ -1,6 +1,6 @@
 import { useEffect, useCallback, useState } from 'react'
 import { debounce, SpatialIndex } from '@carto/react-core'
-import { Methods } from '@carto/react-workers'
+import { Methods, executeTask } from '@carto/react-workers'
 // @ts-ignore
 import { setIsDroppingFeatures } from '@carto/react-redux'
 import { parse } from '@loaders.gl/core'
@@ -10,7 +10,7 @@ import { Layer } from '@deck.gl/core'
 import { TILE_FORMATS } from '@deck.gl/carto'
 import useFeaturesCommons from './useFeaturesCommons'
 import { useDispatch } from 'react-redux'
-import { executeTask } from '@/components/workers/workerPool'
+// import { executeTask } from '@/components/workers/workerPool'
 
 export default function useTileFeatures({
   source,
