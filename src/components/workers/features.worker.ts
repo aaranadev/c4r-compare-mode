@@ -1,5 +1,4 @@
 import {
-  tileFeatures,
   geojsonFeatures,
   aggregationFunctions,
   // @ts-ignore
@@ -10,7 +9,8 @@ import {
   groupValuesByDateColumn,
   AggregationTypes,
 } from '@carto/react-core'
-import { InvalidColumnError } from '@carto/react-core/'
+import { InvalidColumnError } from '@carto/react-core'
+import { tileFeatures } from './core/tileFeatures'
 import { applySorting } from './sorting'
 import { Methods } from './workerMethods'
 
