@@ -82,7 +82,7 @@ export function useAppHook() {
 
   const addFilterToTileset = useCallback(
     (feature) => {
-      const data = buffer(feature.geometry, 1, {
+      const data = buffer(feature.geometry, 100, {
         units: 'kilometers',
       })
       _dispatch(

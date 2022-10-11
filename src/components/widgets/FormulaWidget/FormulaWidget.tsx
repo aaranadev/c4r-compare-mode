@@ -50,12 +50,6 @@ export default function FormulaWidget({
     onError,
   })
 
-  let _data: any = data
-
-  if (Array.isArray(data)) {
-    _data = data[0]
-  }
-
   return (
     <WrapperWidgetUI title={title} isLoading={isLoading} {...wrapperProps}>
       {/* <WidgetWithAlert
@@ -64,12 +58,15 @@ export default function FormulaWidget({
         global={global}
         droppingFeaturesAlertProps={droppingFeaturesAlertProps}
       > */}
-      <FormulaWidgetUI
-        data={Number.isFinite(_data?.value) ? _data.value : undefined}
-        formatter={formatter}
-        unitBefore={true}
-        animation={animation}
-      />
+      {data.map((d, i) => (
+        <FormulaWidgetUI
+          key={i}
+          data={Number.isFinite(d.value) ? d.value : undefined}
+          formatter={formatter}
+          unitBefore={true}
+          animation={animation}
+        />
+      ))}
       {/* </WidgetWithAlert> */}
     </WrapperWidgetUI>
   )

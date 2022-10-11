@@ -99,10 +99,7 @@ export default function CategoryWidget(props: any) {
     [column, dataSource, id, dispatch],
   )
 
-  const _data: any = useMemo(
-    () => (data?.length ? data.flat() : null),
-    [data.length],
-  )
+  const _data: any = useMemo(() => (data?.length ? data : null), [data.length])
 
   return (
     <>
