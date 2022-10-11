@@ -1,5 +1,5 @@
 // @ts-ignore
-import { TILE_FORMATS } from '@deck.gl/carto'
+// import { TILE_FORMATS } from '@deck.gl/carto'
 import bboxPolygon from '@turf/bbox-polygon'
 import intersects from '@turf/boolean-intersects'
 import booleanWithin from '@turf/boolean-within'
@@ -234,7 +234,7 @@ export default function tileFeaturesGeometries({
     const transformedGeomtryToIntersect = {
       type: 'Feature',
       geometry:
-        tileFormat === TILE_FORMATS.MVT
+        tileFormat === 'mvt'
           ? transformToTileCoords(clippedGeometryToIntersect.geometry, bbox)
           : clippedGeometryToIntersect.geometry,
     }

@@ -2,7 +2,6 @@ import {
   geojsonFeatures,
   aggregationFunctions,
   // @ts-ignore
-  _applyFilters,
   histogram,
   scatterPlot,
   groupValuesByColumn,
@@ -10,6 +9,7 @@ import {
   AggregationTypes,
 } from '@carto/react-core'
 import { InvalidColumnError } from '@carto/react-core'
+import { applyFilters } from './core/Filter'
 import { tileFeatures } from './core/tileFeatures'
 import { applySorting } from './sorting'
 import { Methods } from './workerMethods'
@@ -323,7 +323,7 @@ function applyPagination(features: any, { limit, page }: any) {
 }
 
 function getFilteredFeatures(filters = {}, filtersLogicalOperator: any) {
-  return _applyFilters(currentFeatures, filters, filtersLogicalOperator)
+  return applyFilters(currentFeatures, filters, filtersLogicalOperator)
 }
 
 function assertColumn(...columnArgs: any) {

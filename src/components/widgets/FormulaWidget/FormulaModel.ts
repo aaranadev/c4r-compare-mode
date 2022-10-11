@@ -1,7 +1,7 @@
 // @ts-ignore
-// import { executeTask } from '@/components/workers/workerPool'
+import { executeTask } from '@/components/workers/workerPool'
 import { _executeModel } from '@carto/react-api'
-import { Methods, executeTask } from '@carto/react-workers'
+import { Methods } from '@carto/react-workers'
 import { normalizeObjectKeys, wrapModelCall } from '../common/utils'
 
 export function getFormula(props: any) {
