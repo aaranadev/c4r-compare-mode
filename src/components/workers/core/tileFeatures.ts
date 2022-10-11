@@ -4,8 +4,8 @@ import tileFeaturesGeometries from './tileFeaturesGeometries'
 import tileFeaturesSpatialIndex from './tileFeaturesSpatialIndex'
 
 export function getGeometryToIntersect(viewport: any, geometry: any) {
-  return geometry
-    ? intersect(bboxPolygon(viewport), geometry)
+  return geometry.length
+    ? intersect(bboxPolygon(viewport), geometry[0])
     : bboxPolygon(viewport)
 }
 

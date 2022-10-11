@@ -19,22 +19,25 @@ export default function useCartoLayerProps({
     selectSpatialFilter(state, source?.id),
   )
 
-  const spatialFilter = _spatialFilter.length
-    ? _spatialFilter.reduce(
-        (acc: any, cur: any) => {
-          acc.geometry.coordinates.push(cur.geometry.coordinates)
-          return acc
-        },
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'MultiPolygon',
-            coordinates: [],
-          },
-          properties: {},
-        },
-      )
-    : null
+  // AND CASE - Multipolygon spatial filter
+  // const spatialFilter = _spatialFilter.length
+  //   ? _spatialFilter.reduce(
+  //       (acc: any, cur: any) => {
+  //         acc.geometry.coordinates.push(cur.geometry.coordinates)
+  //         return acc
+  //       },
+  //       {
+  //         type: 'Feature',
+  //         geometry: {
+  //           type: 'MultiPolygon',
+  //           coordinates: [],
+  //         },
+  //         properties: {},
+  //       },
+  //     )
+  //   : null
+  // OR CASE - Array of polygons
+  const spatialFilter = _spatialFilter.length ? _spatialFilter : []
 
   const [onDataLoadForGeojson] = useGeojsonFeatures({
     source,
@@ -81,7 +84,7 @@ export default function useCartoLayerProps({
   )
   const maskExtensionProps = getMaskExtensionProps(
     // @ts-ignore
-    spatialFilter?.geometry?.coordinates,
+    spatialFilter,
   )
   const extensions = [
     ...dataFilterExtensionProps.extensions,
