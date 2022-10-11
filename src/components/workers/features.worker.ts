@@ -14,7 +14,7 @@ import { tileFeatures } from './core/tileFeatures'
 import { applySorting } from './sorting'
 import { Methods } from './workerMethods'
 
-let currentFeatures: any
+let currentFeatures: any = []
 let currentGeoJSON: any
 let currentTiles: any
 
@@ -109,7 +109,7 @@ function getFormula({
 }: any) {
   let result = null
 
-  if (currentFeatures) {
+  if (currentFeatures.length) {
     // @ts-ignore
     const targetOperation = aggregationFunctions[operation]
 
@@ -127,11 +127,11 @@ function getFormula({
     )
 
     if (filteredFeatures.length === 0 && !isCount) {
-      result = { value: null }
+      result = [{ value: null }]
     } else {
-      result = {
-        value: targetOperation(filteredFeatures, column, joinOperation),
-      }
+      result = filteredFeatures.map((d: any) => ({
+        value: targetOperation(d, column, joinOperation),
+      }))
     }
   }
 
@@ -148,7 +148,7 @@ function getHistogram({
 }: any) {
   let result = null
 
-  if (currentFeatures) {
+  if (currentFeatures.length) {
     const filteredFeatures = getFilteredFeatures(
       filters,
       filtersLogicalOperator,
@@ -178,7 +178,7 @@ function getCategories({
 }: any) {
   let result = null
 
-  if (currentFeatures) {
+  if (currentFeatures.length) {
     const filteredFeatures = getFilteredFeatures(
       filters,
       filtersLogicalOperator,
@@ -186,15 +186,15 @@ function getCategories({
 
     assertColumn(column, operationColumn)
 
-    const groups = groupValuesByColumn({
-      data: filteredFeatures,
-      valuesColumns: normalizeColumns(operationColumn),
-      joinOperation,
-      keysColumn: column,
-      operation,
+    result = filteredFeatures.map((d: any) => {
+      return groupValuesByColumn({
+        data: d,
+        valuesColumns: normalizeColumns(operationColumn),
+        joinOperation,
+        keysColumn: column,
+        operation,
+      })
     })
-
-    result = groups || []
   }
 
   postMessage({ result })
@@ -209,7 +209,7 @@ function getScatterPlot({
   yAxisJoinOperation,
 }: any) {
   let result: any = []
-  if (currentFeatures) {
+  if (currentFeatures.length) {
     const filteredFeatures = getFilteredFeatures(
       filters,
       filtersLogicalOperator,
@@ -240,7 +240,7 @@ function getTimeSeries({
 }: any) {
   let result: any = []
 
-  if (currentFeatures) {
+  if (currentFeatures.length) {
     const filteredFeatures = getFilteredFeatures(
       filters,
       filtersLogicalOperator,
@@ -266,7 +266,7 @@ function getTimeSeries({
 function getRange({ filters, filtersLogicalOperator, column }: any) {
   let result = null
 
-  if (currentFeatures) {
+  if (currentFeatures.length) {
     const filteredFeatures = getFilteredFeatures(
       filters,
       filtersLogicalOperator,
@@ -296,7 +296,7 @@ function getRawFeatures({
   let numberPages = 0
   let totalCount = 0
 
-  if (currentFeatures) {
+  if (currentFeatures.length) {
     data = applySorting(getFilteredFeatures(filters, filtersLogicalOperator), {
       sortBy,
       sortByDirection,
@@ -323,7 +323,9 @@ function applyPagination(features: any, { limit, page }: any) {
 }
 
 function getFilteredFeatures(filters = {}, filtersLogicalOperator: any) {
-  return applyFilters(currentFeatures, filters, filtersLogicalOperator)
+  return currentFeatures.map((d: any) => {
+    return applyFilters(d, filters, filtersLogicalOperator)
+  })
 }
 
 function assertColumn(...columnArgs: any) {
@@ -332,7 +334,7 @@ function assertColumn(...columnArgs: any) {
     // Due to the multiple column shape, we normalise it as an array with normalizeColumns
     const columns = Array.from(new Set(columnArgs.map(normalizeColumns).flat()))
 
-    const featureKeys = Object.keys(currentFeatures[0])
+    const featureKeys = Object.keys(currentFeatures[0][0])
 
     const invalidColumns = columns.filter(
       (column) => !featureKeys.includes(column as string),

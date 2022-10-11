@@ -192,9 +192,11 @@ function createIndicesForPoints(data: any) {
 }
 
 export function getGeometryToIntersect(viewport: any, geometry: any) {
-  return geometry
-    ? intersect(bboxPolygon(viewport), geometry)
-    : bboxPolygon(viewport)
+  return geometry.length
+    ? geometry
+        .map((feature: any) => intersect(bboxPolygon(viewport), feature))
+        .filter(Boolean)
+    : [bboxPolygon(viewport)]
 }
 
 export default function tileFeaturesGeometries({

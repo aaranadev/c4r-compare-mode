@@ -98,6 +98,12 @@ export default function CategoryWidget(props: any) {
     [column, dataSource, id, dispatch],
   )
 
+  let _data: any = data
+
+  if (Array.isArray(data?.[0])) {
+    _data = data.flat()
+  }
+
   return (
     <WrapperWidgetUI title={title} isLoading={isLoading} {...wrapperProps}>
       <WidgetWithAlert
@@ -107,9 +113,9 @@ export default function CategoryWidget(props: any) {
         droppingFeaturesAlertProps={droppingFeaturesAlertProps}
         noDataAlertProps={noDataAlertProps}
       >
-        {(!!data.length || isLoading) && (
+        {(!!_data.length || isLoading) && (
           <CategoryWidgetUI
-            data={data}
+            data={_data}
             formatter={formatter}
             labels={labels}
             selectedCategories={selectedCategories}

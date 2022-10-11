@@ -34,7 +34,7 @@ export default function FormulaWidget({
   droppingFeaturesAlertProps,
 }: any) {
   const {
-    data = { value: undefined },
+    data = [{ value: undefined }],
     isLoading,
     warning,
   } = useWidgetFetch(getFormula, {
@@ -49,13 +49,10 @@ export default function FormulaWidget({
     onError,
   })
 
-  let _data = data
+  let _data: any = data
 
-  if (Array.isArray(data.value)) {
-    _data = {
-      ...data,
-      value: data.value[0],
-    }
+  if (Array.isArray(data)) {
+    _data = data[0]
   }
 
   return (

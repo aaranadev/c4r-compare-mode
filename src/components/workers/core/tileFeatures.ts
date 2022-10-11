@@ -1,13 +1,13 @@
-import bboxPolygon from '@turf/bbox-polygon'
-import intersect from '@turf/intersect'
-import tileFeaturesGeometries from './tileFeaturesGeometries'
+import tileFeaturesGeometries, {
+  getGeometryToIntersect,
+} from './tileFeaturesGeometries'
 import tileFeaturesSpatialIndex from './tileFeaturesSpatialIndex'
 
-export function getGeometryToIntersect(viewport: any, geometry: any) {
-  return geometry.length
-    ? intersect(bboxPolygon(viewport), geometry[0])
-    : bboxPolygon(viewport)
-}
+// export function getGeometryToIntersect(viewport: any, geometry: any) {
+//   return geometry.length
+//     ? intersect(bboxPolygon(viewport), geometry[0])
+//     : bboxPolygon(viewport)
+// }
 
 export function tileFeatures({
   tiles,
@@ -32,10 +32,12 @@ export function tileFeatures({
       spatialIndex,
     })
   }
-  return tileFeaturesGeometries({
-    tiles,
-    tileFormat,
-    geometryToIntersect,
-    uniqueIdProperty,
-  })
+  return geometryToIntersect.map((d: any) =>
+    tileFeaturesGeometries({
+      tiles,
+      tileFormat,
+      geometryToIntersect: d,
+      uniqueIdProperty,
+    }),
+  )
 }
