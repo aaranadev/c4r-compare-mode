@@ -1,12 +1,13 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { addFilter, removeFilter } from '@carto/react-redux'
-import { WrapperWidgetUI, CategoryWidgetUI } from '@carto/react-ui'
+import { WrapperWidgetUI } from '@carto/react-ui'
 import { _FilterTypes as FilterTypes } from '@carto/react-core'
 import { getCategories } from './CategoryModel'
 import { useWidgetFilterValues } from '../common/useWidgetFilterValues'
 import useWidgetFetch from '../common/useWidgetFetch'
 import WidgetWithAlert from '../common/WidgetWithAlert'
+import CategoryWidgetUI from './CategoryWidgetUI'
 
 const EMPTY_ARRAY: any[] = []
 
@@ -42,7 +43,7 @@ export default function CategoryWidget(props: any) {
     operation,
     formatter,
     labels,
-    animation = true,
+    animation = false,
     filterable = true,
     searchable = true,
     global = false,
@@ -58,7 +59,7 @@ export default function CategoryWidget(props: any) {
     EMPTY_ARRAY
 
   const {
-    data = [],
+    data = EMPTY_ARRAY,
     isLoading,
     warning,
   } = useWidgetFetch(getCategories, {
@@ -98,22 +99,22 @@ export default function CategoryWidget(props: any) {
     [column, dataSource, id, dispatch],
   )
 
-  let _data: any = data
-
-  if (Array.isArray(data?.[0])) {
-    _data = data.flat()
-  }
+  const _data: any = useMemo(
+    () => (data?.length ? data.flat() : null),
+    [data.length],
+  )
 
   return (
-    <WrapperWidgetUI title={title} isLoading={isLoading} {...wrapperProps}>
-      <WidgetWithAlert
+    <>
+      <WrapperWidgetUI title={title} isLoading={isLoading} {...wrapperProps}>
+        {/* <WidgetWithAlert
         dataSource={dataSource}
         warning={warning}
         global={global}
         droppingFeaturesAlertProps={droppingFeaturesAlertProps}
         noDataAlertProps={noDataAlertProps}
-      >
-        {(!!_data.length || isLoading) && (
+      > */}
+        {(!!_data || isLoading) && (
           <CategoryWidgetUI
             data={_data}
             formatter={formatter}
@@ -125,7 +126,8 @@ export default function CategoryWidget(props: any) {
             searchable={searchable}
           />
         )}
-      </WidgetWithAlert>
-    </WrapperWidgetUI>
+        {/* </WidgetWithAlert> */}
+      </WrapperWidgetUI>
+    </>
   )
 }

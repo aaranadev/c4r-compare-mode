@@ -32,11 +32,11 @@ export default function FormulaWidgetUI({
   data = '-',
   formatter = (v: any) => v,
   unitBefore = false,
-  animation = true,
+  animation = false,
 }: any) {
   const classes = useStyles()
   const [value, setValue] = useState('-')
-  const requestRef: any = useRef()
+  // const requestRef: any = useRef()
   const prevValue = usePrevious(value)
   const referencedPrevValue: any = useRef(prevValue)
 
@@ -57,7 +57,7 @@ export default function FormulaWidgetUI({
       setValue(data)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    return () => cancelAnimationFrame(requestRef.current)
+    // return () => cancelAnimationFrame(requestRef.current)
   }, [animation, data, setValue])
 
   const formattedValue = formatter(value)

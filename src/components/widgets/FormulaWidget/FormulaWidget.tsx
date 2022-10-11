@@ -1,7 +1,8 @@
 import React from 'react'
-import { WrapperWidgetUI, FormulaWidgetUI } from '@carto/react-ui'
+import { WrapperWidgetUI } from '@carto/react-ui'
 import { getFormula } from './FormulaModel'
 import useWidgetFetch from '../common/useWidgetFetch'
+import FormulaWidgetUI from './FormulaWidgetUI'
 
 /**
  * Renders a <FormulaWidget /> component
